@@ -1,99 +1,9 @@
-From b056309dcb661296e42b8de7633f25a746338648 Mon Sep 17 00:00:00 2001
-From: Koen Kanters <koenkanters94@gmail.com>
-Date: Tue, 8 Apr 2025 20:45:44 +0200
-Subject: [PATCH] Own changes
-
----
- package.py                                    |  36 ++
- source/preinclude.h                           | 122 ++++++
- .../zstack/apps/genericapp/zcl_genericapp.c   |  32 ++
- .../apps/genericapp/zcl_genericapp_data.c     |  57 ++-
- .../cc13x2_cc26x2_tirtos7_ticlang.cmd         |   8 +-
- .../cc13x2x7_cc26x2x7_tirtos7_ticlang.cmd     |   8 +-
- .../cc13x4_cc26x4_tirtos7_ticlang.cmd         |   4 +-
- source/ti/zstack/mt/mt.h                      |   4 +
- source/ti/zstack/mt/mt_util.c                 | 119 +++++-
- source/ti/zstack/mt/mt_version.c              |   6 +-
- source/ti/zstack/mt/mt_zdo.c                  |   5 +
- source/ti/zstack/npi/npi_tl_uart.c            |  49 ++-
- source/ti/zstack/npi/npi_tl_uart.h            |   2 +-
- source/ti/zstack/stack/af/af.c                |  25 +-
- source/ti/zstack/stack/nwk/nwk_globals.c      |   8 +-
- source/ti/zstack/stack/nwk/nwk_util.c         |  49 +++
- source/ti/zstack/stack/nwk/nwk_util.h         |   4 +
- source/ti/zstack/stack/sys/zcomdef.h          |   5 +
- source/ti/zstack/stack/sys/zglobals.c         |   6 +-
- source/ti/zstack/stack/zcl/zcl.c              |  12 +
- source/ti/zstack/stack/zdo/zd_app.c           |   8 +
- source/ti/zstack/stack/zdo/zd_object.c        |  14 +
- source/ti/zstack/stack/zdo/zd_sec_mgr.c       |  23 ++
- source/ti/zstack/stack/zdo/zd_sec_mgr.h       |   5 +
- source/ti/zstack/startup/zstackstartup.c      |   8 +
- .../.project                                  |  10 +
- .../Stack/Config/znp_cnf.opts                 |   3 +
- .../ti_devices_config.c                       | 108 +++++
- .../ti_drivers_config.h                       | 283 +++++++++++++
- .../ti_radio_config.c                         | 385 ++++++++++++++++++
- .../ti_radio_config.h                         |  83 ++++
- .../znp.syscfg                                |  10 +-
- .../.project                                  |  10 +
- .../Stack/Config/znp_cnf.opts                 |   3 +
- .../znp.syscfg                                |   6 +-
- .../.project                                  |  10 +
- .../Stack/Config/znp_cnf.opts                 |   3 +
- .../znp.syscfg                                |   6 +-
- .../znp_LP_CC2652R7_tirtos7_ticlang/.project  |  10 +
- .../Stack/Config/znp_cnf.opts                 |   3 +
- .../znp.syscfg                                |   6 +-
- .../znp_LP_CC2652RB_tirtos7_ticlang/.project  |  10 +
- .../Stack/Config/znp_cnf.opts                 |   3 +
- .../znp.syscfg                                |   6 +-
- .../.cproject                                 |   2 +-
- .../.project                                  |  10 +
- .../Stack/Config/znp_cnf.opts                 |   3 +
- .../znp.syscfg                                |   2 +
- .../.project                                  |  10 +
- .../Stack/Config/f8wrouter.opts               |   3 +
- .../ti_devices_config.c                       |   1 +
- .../ti_drivers_config.h                       |   1 +
- .../ti_radio_config.c                         |   1 +
- .../ti_radio_config.h                         |   1 +
- .../zr_genericapp.syscfg                      |  11 +-
- .../.project                                  |  10 +
- .../Stack/Config/f8wrouter.opts               |   3 +
- .../zr_genericapp.syscfg                      |   7 +-
- .../.project                                  |  10 +
- .../Stack/Config/f8wrouter.opts               |   3 +
- .../zr_genericapp.syscfg                      |   6 +-
- .../.project                                  |  10 +
- .../Stack/Config/f8wrouter.opts               |   3 +
- .../zr_genericapp.syscfg                      |   7 +-
- .../.project                                  |  10 +
- .../Stack/Config/f8wrouter.opts               |   3 +
- .../zr_genericapp.syscfg                      |   7 +-
- .../.cproject                                 |   2 +-
- .../.project                                  |  10 +
- .../Stack/Config/f8wrouter.opts               |   3 +
- .../zr_genericapp.syscfg                      |   3 +
- 71 files changed, 1646 insertions(+), 73 deletions(-)
- create mode 100644 package.py
- create mode 100644 source/preinclude.h
- create mode 100644 source/ti/zstack/stack/nwk/nwk_util.c
- create mode 100644 workspace/znp_CC1352P_2_LAUNCHXL_tirtos7_ticlang/ti_devices_config.c
- create mode 100644 workspace/znp_CC1352P_2_LAUNCHXL_tirtos7_ticlang/ti_drivers_config.h
- create mode 100644 workspace/znp_CC1352P_2_LAUNCHXL_tirtos7_ticlang/ti_radio_config.c
- create mode 100644 workspace/znp_CC1352P_2_LAUNCHXL_tirtos7_ticlang/ti_radio_config.h
- create mode 120000 workspace/zr_genericapp_CC1352P_2_LAUNCHXL_tirtos7_ticlang/ti_devices_config.c
- create mode 120000 workspace/zr_genericapp_CC1352P_2_LAUNCHXL_tirtos7_ticlang/ti_drivers_config.h
- create mode 120000 workspace/zr_genericapp_CC1352P_2_LAUNCHXL_tirtos7_ticlang/ti_radio_config.c
- create mode 120000 workspace/zr_genericapp_CC1352P_2_LAUNCHXL_tirtos7_ticlang/ti_radio_config.h
-
 diff --git a/package.py b/package.py
 new file mode 100644
-index 000000000..ecade4f9a
+index 0000000..3345c2a
 --- /dev/null
 +++ b/package.py
-@@ -0,0 +1,36 @@
+@@ -0,0 +1,66 @@
 +import glob
 +import zipfile
 +from pathlib import Path
@@ -125,17 +35,55 @@ index 000000000..ecade4f9a
 +    "znp_LP_CC1352P7_4_tirtos7_ticlang": f"CC1352P7_coordinator_{coordinator_version}",
 +}
 +
++def p7_backhaul_name(image):
++    # Use linked symbols and the compiled SYS version, not the current build
++    # switch: preinclude.h may have changed since this image was built.
++    symbols = image.with_suffix(".map").read_text()
++    if not re.search(r"^[0-9a-fA-F]{8}\s+ZnpBh_command\s*$", symbols, re.M):
++        return None
++    versions = set(re.findall(r"^([0-9a-fA-F]{8})\s+MTVersionString\s*$", symbols, re.M))
++    if len(versions) != 1:
++        raise ValueError("Cannot locate backhaul firmware version in " + str(image))
++    address = int(versions.pop(), 16) + 5
++    memory, base = {}, 0
++    for line in image.read_text().splitlines():
++        if not line.startswith(":"):
++            raise ValueError("Invalid HEX record")
++        record = bytes.fromhex(line[1:])
++        if len(record) < 5 or len(record) != record[0] + 5 or sum(record) & 255:
++            raise ValueError("Invalid HEX checksum/length")
++        kind, data = record[3], record[4:-1]
++        offset = int.from_bytes(record[1:3], "big")
++        if kind == 0:
++            for index, value in enumerate(data):
++                memory[base + offset + index] = value
++        elif kind in (2, 4):
++            base = int.from_bytes(data, "big") << (4 if kind == 2 else 16)
++    revision = int.from_bytes(bytes(memory[address + i] for i in range(4)), "little")
++    return f"CC1352P7_znp_backhaul_{revision}"
++
++
 +hex_files = [Path(p) for p in glob.glob("workspace/**/default/*ticlang.hex", recursive=True)]
 +for file in hex_files:
 +    name = lookup[file.parts[1]]
++    if file.parts[1] == "znp_LP_CC1352P7_4_tirtos7_ticlang":
++        name = p7_backhaul_name(file) or name
 +    with zipfile.ZipFile(dist_dir / f"{name}.zip", 'w') as zipf:
 +        zipf.write(file, arcname=f"{name}.hex")
 diff --git a/source/preinclude.h b/source/preinclude.h
 new file mode 100644
-index 000000000..641087801
+index 0000000..34ab959
 --- /dev/null
 +++ b/source/preinclude.h
-@@ -0,0 +1,122 @@
+@@ -0,0 +1,134 @@
++// Optional frame forwarding through the MT interface, LP_CC1352P7_4 ZNP only.
++// Leave disabled for the standard coordinator/router firmware.
++#define ZNP_BACKHAUL_ENABLE 0
++#define ZNP_BACKHAUL_REVISION 20260917
++#if ZNP_BACKHAUL_ENABLE && defined(ZNP_BACKHAUL_P7) && defined(IS_COORDINATOR)
++    #define ZNP_BACKHAUL
++#endif
++
 +// Increase MAC buffers, multiplied default value by 10
 +#undef MAC_CFG_TX_DATA_MAX
 +#define MAC_CFG_TX_DATA_MAX 50
@@ -182,7 +130,11 @@ index 000000000..641087801
 +
 +#ifdef IS_COORDINATOR
 +    // Firmware version, used in mt_version.c
++#ifdef ZNP_BACKHAUL
++    #define CODE_REVISION_NUMBER ZNP_BACKHAUL_REVISION
++#else
 +    #define CODE_REVISION_NUMBER 20250321
++#endif
 +
 +    // Required, otherwise firmware crashes after some uptime in some cases.
 +    #define NVOCMP_RECOVER_FROM_COMPACT_FAILURE
@@ -2276,7 +2228,7 @@ index 3efe0956a..e9679a8ac 100644
  zstack.rf.radioConfig.codeExportConfig.$name = "ti_devices_radioconfig_code_export_param0";
  zstack.rf.coexSettings.$name                 = "ti_zstack_rf_zstack_coex_mod0";
 diff --git a/workspace/znp_LP_CC1352P7_4_tirtos7_ticlang/.project b/workspace/znp_LP_CC1352P7_4_tirtos7_ticlang/.project
-index f727ae82a..1c91f9ce2 100644
+index f727ae8..55438af 100644
 --- a/workspace/znp_LP_CC1352P7_4_tirtos7_ticlang/.project
 +++ b/workspace/znp_LP_CC1352P7_4_tirtos7_ticlang/.project
 @@ -443,6 +443,11 @@
@@ -2303,15 +2255,52 @@ index f727ae82a..1c91f9ce2 100644
  		<link>
  			<name>Stack/nwk/reflecttrack.h</name>
  			<type>1</type>
+@@ -963,5 +973,35 @@
+ 			<type>1</type>
+ 			<locationURI>COM_TI_SIMPLELINK_CC13XX_CC26XX_SDK_INSTALL_DIR/source/ti/ti154stack/low_level/cc13xx/mac_tx.h</locationURI>
+ 		</link>
++		<link>
++			<name>Stack/backhaul/znp_bh.c</name>
++			<type>1</type>
++			<locationURI>COM_TI_SIMPLELINK_CC13XX_CC26XX_SDK_INSTALL_DIR/source/ti/zstack/backhaul/znp_bh.c</locationURI>
++		</link>
++		<link>
++			<name>Stack/backhaul/znp_bh.h</name>
++			<type>1</type>
++			<locationURI>COM_TI_SIMPLELINK_CC13XX_CC26XX_SDK_INSTALL_DIR/source/ti/zstack/backhaul/znp_bh.h</locationURI>
++		</link>
++		<link>
++			<name>Stack/backhaul/znp_bh_platform.c</name>
++			<type>1</type>
++			<locationURI>COM_TI_SIMPLELINK_CC13XX_CC26XX_SDK_INSTALL_DIR/source/ti/zstack/backhaul/znp_bh_platform.c</locationURI>
++		</link>
++		<link>
++			<name>Stack/backhaul/znp_bh_platform.h</name>
++			<type>1</type>
++			<locationURI>COM_TI_SIMPLELINK_CC13XX_CC26XX_SDK_INSTALL_DIR/source/ti/zstack/backhaul/znp_bh_platform.h</locationURI>
++		</link>
++		<link>
++			<name>Stack/backhaul/znp_bh_ti.c</name>
++			<type>1</type>
++			<locationURI>COM_TI_SIMPLELINK_CC13XX_CC26XX_SDK_INSTALL_DIR/source/ti/zstack/backhaul/znp_bh_ti.c</locationURI>
++		</link>
++		<link>
++			<name>Stack/backhaul/znp_bootstrap.c</name>
++			<type>1</type>
++			<locationURI>COM_TI_SIMPLELINK_CC13XX_CC26XX_SDK_INSTALL_DIR/source/ti/zstack/backhaul/znp_bootstrap.c</locationURI>
++		</link>
+ 	</linkedResources>
+ </projectDescription>
 diff --git a/workspace/znp_LP_CC1352P7_4_tirtos7_ticlang/Stack/Config/znp_cnf.opts b/workspace/znp_LP_CC1352P7_4_tirtos7_ticlang/Stack/Config/znp_cnf.opts
 index 2a7704196..694c9c52f 100644
 --- a/workspace/znp_LP_CC1352P7_4_tirtos7_ticlang/Stack/Config/znp_cnf.opts
 +++ b/workspace/znp_LP_CC1352P7_4_tirtos7_ticlang/Stack/Config/znp_cnf.opts
-@@ -32,3 +32,6 @@
+@@ -32,3 +32,7 @@
  -DMT_GP_CB_FUNC
  
  -DMT_APP_CNF_FUNC
 +
++-DZNP_BACKHAUL_P7
 +-DIS_COORDINATOR
 +-include ../../../source/preinclude.h
 diff --git a/workspace/znp_LP_CC1352P7_4_tirtos7_ticlang/znp.syscfg b/workspace/znp_LP_CC1352P7_4_tirtos7_ticlang/znp.syscfg
@@ -3031,3 +3020,1339 @@ index 898048549..03390ba76 100644
 -- 
 2.39.5 (Apple Git-154)
 
+diff --git a/source/ti/ti154stack/common/osal_port/osal_port_posix/osal_port.c b/source/ti/ti154stack/common/osal_port/osal_port_posix/osal_port.c
+index b3fc432..c92050b 100644
+--- a/source/ti/ti154stack/common/osal_port/osal_port_posix/osal_port.c
++++ b/source/ti/ti154stack/common/osal_port/osal_port_posix/osal_port.c
+@@ -45,6 +45,10 @@
+  *****************************************************************************/
+ 
+ /***** Includes *****/
++#ifdef ZNP_BACKHAUL
++#include <ti/zstack/backhaul/znp_bh.h>
++#include <ti/zstack/backhaul/znp_bh_platform.h>
++#endif
+ #include "osal_port.h"
+ 
+ #include "stdlib.h"
+@@ -1190,6 +1194,9 @@ void OsalPort_free_dbg(void* buf, const char *caller);
+ 
+ void OsalPort_free(void* buf)
+ {
++#ifdef ZNP_BACKHAUL
++    ZnpBh_freed(buf, sizeof(OsalPort_MsgHdr));
++#endif
+ #ifdef FREERTOS_SUPPORT
+     free(buf);
+ #else
+diff --git a/source/ti/zstack/backhaul/znp_bh.c b/source/ti/zstack/backhaul/znp_bh.c
+new file mode 100644
+index 0000000..a44cf38
+--- /dev/null
++++ b/source/ti/zstack/backhaul/znp_bh.c
+@@ -0,0 +1,442 @@
++// SPDX-License-Identifier: MIT
++/* Eight independently leased virtual neighbours. No keys, pointers, or native structs on wire.
++ * Calls from NWK and MT are serialized by the platform HwiP lock.
++ * Heap/callback operations happen unlocked. A wired completion means admission
++ * into the OTHER radio's NWK queue, never RF delivery or application execution.
++ */
++#ifdef ZNP_BACKHAUL
++#include "znp_bh.h"
++#include "znp_bh_platform.h"
++#include <string.h>
++typedef struct {
++    uint32_t id, deadline;
++    uint16_t dst;
++    uint8_t state, broadcast, handle, length, result, raw[BH_MAX];
++} Pending;
++typedef struct {
++    Pending pending[BH_WINDOW];
++    uint8_t nonce[8], bound, online;
++    uint16_t peer, self, pan;
++    uint32_t lease, nextId, lastRx;
++} Peer;
++static Peer peers[BH_PEERS];
++static uint8_t timerReady;
++static uint32_t stats[BH_STATS];
++static void *tracked[16], *admitting;
++static uint8_t admissionStatus;
++/* NWK broadcast identity survives forwarding/re-encryption. Cache lifetime is
++ * deliberately bounded; unicast is NEVER deduplicated on its 8-bit NWK sequence.
++ */
++static struct {
++    uint16_t source;
++    uint8_t seq, valid;
++    uint32_t until;
++} seen[64];
++static uint8_t seenNext;
++static uint16_t r16(const uint8_t *p) {
++    return p[0] | (uint16_t)p[1] << 8;
++}
++static uint32_t r32(const uint8_t *p) {
++    return r16(p) | (uint32_t)r16(p + 2) << 16;
++}
++static void w16(uint8_t *p, uint16_t v) {
++    p[0] = v;
++    p[1] = v >> 8;
++}
++static void w32(uint8_t *p, uint32_t v) {
++    w16(p, v);
++    w16(p + 2, v >> 16);
++}
++static uint8_t due(uint32_t now, uint32_t deadline) {
++    return (int32_t)(now - deadline) >= 0;
++}
++static uint8_t count(const Peer *p) {
++    uint8_t n = 0;
++    for (unsigned i = 0; i < BH_WINDOW; i++)
++        n += !!p->pending[i].state;
++    return n;
++}
++static uint8_t total(void) {
++    uint8_t n = 0;
++    for (unsigned i = 0; i < BH_PEERS; i++)
++        n += count(&peers[i]);
++    return n;
++}
++static uint8_t confirming(void) {
++    for (unsigned j = 0; j < BH_PEERS; j++)
++        for (unsigned i = 0; i < BH_WINDOW; i++) {
++            const Pending *p = &peers[j].pending[i];
++            if (!p->broadcast && (p->state == 3 || p->state == 4))
++                return 1;
++        }
++    return 0;
++}
++static uint8_t ready(const Peer *p, uint32_t now) {
++    return p->bound && p->online && !due(now, p->lease);
++}
++static uint8_t valid(const uint8_t *raw, uint16_t len) {
++    /* Zigbee NWK v2, data or command, secured; MAC security/IEs handled by adapter. */
++    return raw && len >= 26 && len <= BH_MAX && ((r16(raw) >> 2) & 15) == 2 &&
++           (r16(raw) & 3) <= 1 && (r16(raw) & 0x200);
++}
++static uint8_t duplicate(const uint8_t *raw, uint32_t now, uint8_t record) {
++    uint16_t src = r16(raw + 4);
++    uint8_t seq = raw[7];
++    for (unsigned i = 0; i < 64; i++)
++        if (seen[i].valid && !due(now, seen[i].until) && seen[i].source == src &&
++            seen[i].seq == seq)
++            return 1;
++    if (record) {
++        unsigned i = seenNext++ % 64;
++        seen[i].valid = 1;
++        seen[i].source = src;
++        seen[i].seq = seq;
++        seen[i].until = now + 9000;
++    }
++    return 0;
++}
++uint8_t ZnpBh_bound(void) {
++    uintptr_t k = ZnpBh_lock();
++    uint8_t n = 0;
++    for (unsigned i = 0; i < BH_PEERS; i++)
++        n += peers[i].bound;
++    ZnpBh_unlock(k);
++    return n;
++}
++void ZnpBh_timerReady(uint8_t value) {
++    timerReady = value;
++}
++static uint8_t enqueue(Peer *peer, uint16_t dst, uint8_t handle, uint8_t bc, const uint8_t *raw,
++                       uint16_t len, uint32_t now) {
++    unsigned i;
++    for (i = 0; i < BH_WINDOW && peer->pending[i].state; i++)
++        ;
++    if (i == BH_WINDOW || peer->nextId == 0xffffffffU) {
++        ++stats[BH_OVERFLOW];
++        return 0;
++    }
++    Pending *p = &peer->pending[i];
++    p->id = ++peer->nextId;
++    p->deadline = now + BH_DEADLINE;
++    p->dst = dst;
++    p->handle = handle;
++    p->length = len;
++    p->broadcast = bc;
++    memcpy(p->raw, raw, len);
++    p->state = 1;
++    ++stats[BH_TX];
++    if (bc)
++        ++stats[BH_BCAST_TX];
++    return 1;
++}
++uint8_t ZnpBh_tx(uint16_t dst, uint16_t dstPan, uint8_t handle, uint8_t eligible,
++                 const uint8_t *raw, uint16_t len, uint8_t *status) {
++    uint32_t now = ZnpBh_now();
++    uintptr_t k = ZnpBh_lock();
++    uint8_t bc = dst == 0xffff, claimed = 0, queued = 0;
++    for (unsigned i = 0; i < BH_PEERS; i++) {
++        Peer *p = &peers[i];
++        if (!p->bound || (!bc && dst != p->peer))
++            continue;
++        claimed = 1;
++        *status = 0xf0;
++        if (!eligible || dstPan != p->pan || !valid(raw, len)) {
++            ++stats[BH_REJECT];
++            continue;
++        }
++        if (!ready(p, now))
++            continue;
++        if (bc && duplicate(raw, now, 0))
++            continue;
++        if (enqueue(p, dst, handle, bc, raw, len, now)) {
++            *status = 0;
++            queued = 1;
++        }
++    }
++    if (bc && queued)
++        duplicate(raw, now, 1);
++    ZnpBh_unlock(k);
++    return claimed && !bc;
++}
++void ZnpBh_queue(void *event, uint8_t status) {
++    uintptr_t k = ZnpBh_lock();
++    if (event == admitting)
++        admissionStatus = status;
++    ZnpBh_unlock(k);
++}
++void ZnpBh_freed(void *base, unsigned header) {
++    void *event = (void *)((uintptr_t)base + header);
++    uintptr_t k = ZnpBh_lock();
++    for (unsigned i = 0; i < 16; i++)
++        if (tracked[i] == event) {
++            tracked[i] = NULL;
++            ++stats[BH_FREE];
++            --stats[BH_LIVE];
++            break;
++        }
++    ZnpBh_unlock(k);
++}
++void ZnpBh_tick(void) {
++    uint32_t now = ZnpBh_now();
++    uintptr_t k = ZnpBh_lock();
++    for (unsigned j = 0; j < BH_PEERS; j++) {
++        Peer *peer = &peers[j];
++        if (peer->online && due(now, peer->lease))
++            peer->online = 0;
++        for (unsigned i = 0; i < BH_WINDOW; i++) {
++            Pending *p = &peer->pending[i];
++            if ((p->state == 1 || p->state == 2) && (!ready(peer, now) || due(now, p->deadline))) {
++                p->result = 0xf0;
++                p->state = 3;
++                ++stats[BH_TIMEOUT];
++            }
++            if (p->state != 3)
++                continue;
++            uint8_t handle = p->handle, result = p->result, bc = p->broadcast;
++            p->state = 4;
++            ZnpBh_unlock(k);
++            uint8_t failed = bc ? 0 : ZnpBh_confirm(handle, result);
++            k = ZnpBh_lock();
++            if (failed) {
++                p->state = 3;
++                ++stats[BH_CONFIRM_RETRY];
++            } else {
++                ++stats[result ? BH_FAILED : BH_ACCEPTED];
++                p->state = 0;
++            }
++        }
++    }
++    ZnpBh_unlock(k);
++}
++uint8_t ZnpBh_command(uint8_t cmd, uint8_t len, const uint8_t *in, uint8_t *out) {
++    BhNetwork net;
++    ZnpBh_network(&net);
++    uint32_t now = ZnpBh_now();
++    out[0] = BH_OK;
++    uintptr_t k = ZnpBh_lock();
++    if (cmd == 0xc0 && !len) {
++        out[1] = 2;
++        w32(out + 2, ZNP_BH_REVISION);
++        w16(out + 6, net.self);
++        w16(out + 8, net.pan);
++        out[10] = net.channel;
++        out[11] = net.state;
++        memcpy(out + 12, net.ieee, 8);
++        memcpy(out + 20, net.extpan, 8);
++        out[28] = out[29] = 0;
++        w16(out + 30, 0xffff);
++        for (unsigned i = 0; i < BH_PEERS; i++) {
++            out[28] += peers[i].bound;
++            out[29] += ready(&peers[i], now);
++        }
++        ZnpBh_unlock(k);
++        return 32;
++    }
++    if (cmd == 0xc6 && !len) {
++        out[1] = out[2] = 0;
++        out[3] = total();
++        for (unsigned i = 0; i < BH_PEERS; i++) {
++            out[1] += peers[i].bound;
++            out[2] += ready(&peers[i], now);
++        }
++        for (unsigned i = 0; i < BH_STATS; i++)
++            w32(out + 4 + 4 * i, stats[i]);
++        ZnpBh_unlock(k);
++        return 4 + 4 * BH_STATS;
++    }
++    Peer *peer = NULL;
++    if (cmd == 0xc1) {
++        if (len != 28)
++            out[0] = BH_LENGTH;
++        else if (!timerReady)
++            out[0] = BH_UNSUPPORTED;
++        else if (stats[BH_LIVE])
++            out[0] = BH_BUSY;
++        else if ((net.state != 7 && net.state != 9) || r16(in + 8) >= 0xfff8 ||
++                 r16(in + 8) == net.self || r16(in + 10) != net.pan ||
++                 memcmp(in + 12, net.extpan, 8))
++            out[0] = BH_ADDRESS;
++        else {
++            for (unsigned i = 0; i < BH_PEERS; i++)
++                if (peers[i].bound && peers[i].peer == r16(in + 8)) {
++                    peer = &peers[i];
++                    break;
++                }
++            if (!peer)
++                for (unsigned i = 0; i < BH_PEERS; i++)
++                    if (!peers[i].bound) {
++                        peer = &peers[i];
++                        break;
++                    }
++            if (!peer || count(peer))
++                out[0] = BH_BUSY;
++            else {
++                for (unsigned i = 0; i < BH_PEERS; i++)
++                    if (&peers[i] != peer && peers[i].bound && !memcmp(peers[i].nonce, in, 8))
++                        out[0] = BH_SESSION;
++                if (!out[0]) {
++                    ZnpBh_unlock(k);
++                    uint8_t status = ZnpBh_neighbor(r16(in + 8), in + 20);
++                    k = ZnpBh_lock();
++                    if (status)
++                        out[0] = status;
++                    else {
++                        memset(peer, 0, sizeof(*peer));
++                        memcpy(peer->nonce, in, 8);
++                        peer->peer = r16(in + 8);
++                        peer->self = net.self;
++                        peer->pan = net.pan;
++                        peer->bound = 1;
++                    }
++                }
++            }
++        }
++        ZnpBh_unlock(k);
++        return 1;
++    }
++    if (len >= 8)
++        for (unsigned i = 0; i < BH_PEERS; i++)
++            if (peers[i].bound && !memcmp(peers[i].nonce, in, 8)) {
++                peer = &peers[i];
++                break;
++            }
++    if (len < 8)
++        out[0] = BH_LENGTH;
++    else if (!peer)
++        out[0] = BH_SESSION;
++    else if (net.self != peer->self || net.pan != peer->pan || (net.state != 7 && net.state != 9)) {
++        peer->online = 0;
++        out[0] = BH_ADDRESS;
++    } else if (cmd == 0xc5 && len == 9 && in[8] <= 1) {
++        peer->online = in[8];
++        peer->lease = now + BH_LEASE;
++    } else if (cmd == 0xc7 && len == 8) {
++        if (count(peer) || stats[BH_LIVE])
++            out[0] = BH_BUSY;
++        else {
++            peer->bound = peer->online = 0;
++        }
++    } else if (cmd == 0xc2 && len == 8) {
++        unsigned i, best = BH_WINDOW;
++        uint32_t id = 0xffffffffU;
++        for (i = 0; i < BH_WINDOW; i++)
++            if (peer->pending[i].state == 1 && peer->pending[i].id < id) {
++                best = i;
++                id = peer->pending[i].id;
++            }
++        if (best == BH_WINDOW)
++            out[0] = BH_EMPTY;
++        else {
++            Pending *p = &peer->pending[best];
++            p->state = 2;
++            memcpy(out + 1, peer->nonce, 8);
++            w32(out + 9, p->id);
++            out[13] = p->broadcast;
++            w16(out + 14, peer->self);
++            w16(out + 16, p->dst);
++            w16(out + 18, peer->pan);
++            out[20] = p->length;
++            memcpy(out + 21, p->raw, p->length);
++            ZnpBh_unlock(k);
++            return 21 + p->length;
++        }
++    } else if (cmd == 0xc4 && len == 13) {
++        unsigned i;
++        for (i = 0; i < BH_WINDOW; i++)
++            if (peer->pending[i].state == 2 && peer->pending[i].id == r32(in + 8))
++                break;
++        if (i == BH_WINDOW)
++            out[0] = BH_DUPLICATE;
++        else {
++            peer->pending[i].result =
++                (in[12] || !ready(peer, now) || due(now, peer->pending[i].deadline)) ? 0xf0 : 0;
++            peer->pending[i].state = 3;
++        }
++        /* The following C3 may carry the APS ACK. Put the native MAC confirm
++         * in NWK's FIFO now, before replying to C4, not on the 50 ms timer.
++         * Allocation failures remain pending and the timer retries them. */
++        ZnpBh_unlock(k);
++        ZnpBh_tick();
++        k = ZnpBh_lock();
++    } else if (cmd == 0xc3) {
++        if (len < 20 || len != 20 + in[19] || !valid(in + 20, in[19]))
++            out[0] = BH_LENGTH;
++        else if (!ready(peer, now))
++            out[0] = BH_OFFLINE;
++        else if (in[12] > 1 || r16(in + 13) != peer->peer || r16(in + 17) != peer->pan ||
++                 r16(in + 15) != (in[12] ? 0xffff : peer->self))
++            out[0] = BH_ADDRESS;
++        /* Under memory pressure, do not admit an ACK ahead of a MAC confirm
++         * whose enqueue failed. A rejected admission is not an APS success. */
++        else if (confirming())
++            out[0] = BH_BUSY;
++        else if (!r32(in + 8) || r32(in + 8) <= peer->lastRx) {
++            out[0] = BH_DUPLICATE;
++            ++stats[BH_DUP];
++        } else {
++            /* Consume sequence even after rejected admission: replay is not retry. */
++            peer->lastRx = r32(in + 8);
++            if (in[12] && duplicate(in + 20, now, 0)) {
++                out[0] = BH_DUPLICATE;
++                ++stats[BH_DUP];
++            } else {
++                unsigned slot;
++                for (slot = 0; slot < 16 && tracked[slot]; slot++)
++                    ;
++                if (slot == 16) {
++                    out[0] = BH_MEMORY;
++                    ++stats[BH_ALLOC_FAIL];
++                } else {
++                    uint8_t m[32] = {0};
++                    w16(m, peer->peer);
++                    w16(m + 2, r16(in + 15));
++                    w16(m + 4, peer->pan);
++                    w16(m + 6, peer->pan);
++                    w16(m + 8, 0x8841);
++                    m[20] = 0x60;
++                    m[21] = (uint8_t)peer->lastRx;
++                    m[22] = 255;
++                    m[23] = 110;
++                    m[24] = (uint8_t)-20;
++                    ZnpBh_unlock(k);
++                    void *event = ZnpBh_allocate(m, in + 20, in[19], now);
++                    k = ZnpBh_lock();
++                    if (!event) {
++                        out[0] = BH_MEMORY;
++                        ++stats[BH_ALLOC_FAIL];
++                    } else {
++                        tracked[slot] = event;
++                        ++stats[BH_ALLOC];
++                        ++stats[BH_LIVE];
++                        admitting = event;
++                        admissionStatus = 255;
++                        if (in[12])
++                            duplicate(in + 20, now, 1);
++                        ZnpBh_unlock(k);
++                        ZnpBh_deliver(event);
++                        k = ZnpBh_lock();
++                        admitting = NULL;
++                        if (admissionStatus) {
++                            out[0] = BH_QUEUE;
++                            ++stats[BH_QUEUE_FAIL];
++                        } else {
++                            ++stats[BH_RX];
++                            // A star forwards an admitted broadcast to every OTHER live peer
++                            // exactly once.
++                            if (in[12])
++                                for (unsigned j = 0; j < BH_PEERS; j++)
++                                    if (&peers[j] != peer && ready(&peers[j], now))
++                                        enqueue(&peers[j], 0xffff, 0, 1, in + 20, in[19], now);
++                        }
++                    }
++                }
++            }
++        }
++    } else
++        out[0] = BH_LENGTH;
++    if (out[0] && out[0] != BH_EMPTY && out[0] != BH_DUPLICATE)
++        ++stats[BH_REJECT];
++    ZnpBh_unlock(k);
++    return 1;
++}
++#endif
+diff --git a/source/ti/zstack/backhaul/znp_bh.h b/source/ti/zstack/backhaul/znp_bh.h
+new file mode 100644
+index 0000000..bf7351c
+--- /dev/null
++++ b/source/ti/zstack/backhaul/znp_bh.h
+@@ -0,0 +1,63 @@
++// SPDX-License-Identifier: MIT
++#ifndef ZNP_BH_H
++#define ZNP_BH_H
++#include <stdint.h>
++#include <stddef.h>
++#ifndef ZNP_BACKHAUL_REVISION
++#define ZNP_BACKHAUL_REVISION 20260917U
++#endif
++#define ZNP_BH_REVISION ZNP_BACKHAUL_REVISION
++#define BH_PEERS 8
++#define BH_WINDOW 4
++#define BH_MAX 127
++#define BH_DEADLINE 1000U
++#define BH_LEASE 1500U
++enum {
++    BH_OK,
++    BH_EMPTY,
++    BH_LENGTH,
++    BH_SESSION,
++    BH_BUSY,
++    BH_ADDRESS,
++    BH_MEMORY,
++    BH_QUEUE,
++    BH_DUPLICATE,
++    BH_OFFLINE,
++    BH_UNSUPPORTED
++};
++enum {
++    BH_TX,
++    BH_ACCEPTED,
++    BH_FAILED,
++    BH_TIMEOUT,
++    BH_OVERFLOW,
++    BH_BCAST_TX,
++    BH_RX,
++    BH_ALLOC,
++    BH_FREE,
++    BH_LIVE,
++    BH_ALLOC_FAIL,
++    BH_QUEUE_FAIL,
++    BH_DUP,
++    BH_REJECT,
++    BH_CONFIRM_RETRY,
++    BH_STATS
++};
++typedef struct {
++    uint16_t self, pan;
++    uint8_t channel, state, ieee[8], extpan[8];
++} BhNetwork;
++uint8_t ZnpBh_command(uint8_t cmd, uint8_t len, const uint8_t *in, uint8_t *out);
++uint8_t ZnpBh_tx(uint16_t dst, uint16_t pan, uint8_t handle, uint8_t eligible, const uint8_t *raw,
++                 uint16_t len, uint8_t *status);
++void ZnpBh_tick(void);
++void ZnpBh_queue(void *event, uint8_t status);
++void ZnpBh_freed(void *base, unsigned header);
++uint8_t ZnpBh_bound(void);
++void ZnpBh_timerReady(uint8_t ready);
++uint8_t ZnpBh_adapterTx(void *request, uint8_t secured, uint8_t *status);
++uint8_t ZnpBh_neighbor(uint16_t addr, const uint8_t ieee[8]);
++uint8_t ZnpBh_provision(uint8_t cmd, uint8_t len, const uint8_t *in, uint8_t *out);
++uint8_t ZnpBh_restoreBootstrap(void);
++void ZnpBh_network(BhNetwork *network);
++#endif
+diff --git a/source/ti/zstack/backhaul/znp_bh_platform.c b/source/ti/zstack/backhaul/znp_bh_platform.c
+new file mode 100644
+index 0000000..dc45eeb
+--- /dev/null
++++ b/source/ti/zstack/backhaul/znp_bh_platform.c
+@@ -0,0 +1,111 @@
++// SPDX-License-Identifier: MIT
++#ifdef ZNP_BACKHAUL
++#include "znp_bh.h"
++#include "znp_bh_platform.h"
++#include "zcomdef.h"
++#include "rom_jt_154.h"
++#include "zmac.h"
++#include "mac_main.h"
++#include "mac_high_level.h"
++#include "mac_data.h"
++#include "nwk.h"
++#include "osal_port.h"
++#include <ti/drivers/dpl/HwiP.h>
++#include <ti/drivers/dpl/ClockP.h>
++#include <string.h>
++
++static ClockP_Struct bhClock;
++static uint8_t bhTask;
++_Static_assert(sizeof(macRx_t) >= sizeof(macMcpsDataInd_t),
++               "RX allocation must fit the callback indication");
++_Static_assert(offsetof(macRx_t, msdu) == offsetof(macMcpsDataInd_t, msdu), "RX MSDU layout");
++_Static_assert(offsetof(macRx_t, mac) == offsetof(macMcpsDataInd_t, mac), "RX MAC layout");
++static uint16_t r16(const uint8_t *p) {
++    return p[0] | ((uint16_t)p[1] << 8);
++}
++static uint32_t r32(const uint8_t *p) {
++    return r16(p) | ((uint32_t)r16(p + 2) << 16);
++}
++uintptr_t ZnpBh_lock(void) {
++    return HwiP_disable();
++}
++void ZnpBh_unlock(uintptr_t k) {
++    HwiP_restore(k);
++}
++uint32_t ZnpBh_now(void) {
++    return (uint32_t)((ClockP_getSystemTicks64() * ClockP_getSystemTickPeriod()) / 1000U);
++}
++static void pulse(uintptr_t arg) {
++    (void)arg;
++    /* Timer only wakes the existing MT task. No MAC operation runs in the SWI. */
++    OsalPort_setEvent(bhTask, ZNP_BH_EVENT);
++}
++uint8_t ZnpBh_timerStart(uint8_t task) {
++    ClockP_Params params;
++    ClockP_Params_init(&params);
++    params.period = (50000U + ClockP_getSystemTickPeriod() - 1) / ClockP_getSystemTickPeriod();
++    params.startFlag = true;
++    bhTask = task;
++    return ClockP_construct(&bhClock, pulse, params.period, &params) != NULL;
++}
++
++void *ZnpBh_allocate(const uint8_t m[32], const uint8_t *raw, uint8_t len, uint32_t timestamp) {
++    /* Request the entire structure + payload explicitly. If the MAC allocator
++     * adds its own indication overhead this intentionally overallocates; no
++     * dependency on undocumented allocator pointer initialization is assumed.
++     */
++    macRx_t *p = (macRx_t *)MAP_macDataRxMemAlloc(sizeof(macRx_t) + len);
++    if (!p)
++        return NULL;
++    memset(p, 0, sizeof(*p));
++    p->hdr.event = MAC_MCPS_DATA_IND;
++    p->msdu.len = len;
++    p->msdu.p = (uint8_t *)(p + 1);
++    memcpy(p->msdu.p, raw, len);
++    p->mac.srcAddr.addrMode = p->mac.dstAddr.addrMode = SADDR_MODE_SHORT;
++    p->mac.srcAddr.addr.shortAddr = r16(m);
++    p->mac.dstAddr.addr.shortAddr = r16(m + 2);
++    p->mac.srcPanId = r16(m + 4);
++    p->mac.dstPanId = r16(m + 6);
++    p->internal.fcf = r16(m + 8);
++    p->internal.flags = m[20];
++    p->mac.timestamp = timestamp;
++    p->mac.timestamp2 = r16(m + 14);
++    p->mac.frameCntr = r32(m + 16);
++    p->internal.frameCntr = r32(m + 16);
++    p->mac.dsn = m[21];
++    p->mac.mpduLinkQuality = m[22];
++    p->mac.correlation = m[23];
++    p->mac.rssi = (int8_t)m[24];
++    /* Ordinary Zigbee here has NWK security, no 802.15.4 MAC security or IEs.
++     * All embedded pointers (ptrCData, mhr, IEs) are independently NULL.
++     */
++    return p;
++}
++void ZnpBh_deliver(void *event) {
++    MAC_CbackEvent((macCbackEvent_t *)event);
++}
++
++uint8_t ZnpBh_confirm(uint8_t handle, uint8_t status) {
++    /* ZMAC normally frees the MAC request before NWK consumes this confirmation.
++     * Use its native upper-layer format with pDataReq=NULL, never a fake MAC
++     * request passed to MAC_CbackEvent (which would dereference that request).
++     */
++    ZMacDataCnf_t *p = (ZMacDataCnf_t *)OsalPort_msgAllocate(sizeof(*p));
++    if (!p)
++        return 1;
++    memset(p, 0, sizeof(*p));
++    p->hdr.Event = MAC_MCPS_DATA_CNF;
++    p->hdr.Status = status;
++    p->msduHandle = handle;
++    uint8_t result = OsalPort_msgSend(NWK_TaskID, (uint8_t *)p);
++    if (result)
++        OsalPort_msgDeallocate((uint8_t *)p);
++    return result;
++}
++
++void ZnpBh_init(uint8_t task) {
++    ZnpBh_timerReady(ZnpBh_timerStart(task));
++}
++
++#endif
+diff --git a/source/ti/zstack/backhaul/znp_bh_platform.h b/source/ti/zstack/backhaul/znp_bh_platform.h
+new file mode 100644
+index 0000000..4e0b6ac
+--- /dev/null
++++ b/source/ti/zstack/backhaul/znp_bh_platform.h
+@@ -0,0 +1,16 @@
++// SPDX-License-Identifier: MIT
++#ifndef ZNP_BH_PLATFORM_H
++#define ZNP_BH_PLATFORM_H
++#include <stddef.h>
++#include <stdint.h>
++/* Unused in the SDK MT task; verified by the integration patch. */
++#define ZNP_BH_EVENT 0x4000U
++void ZnpBh_init(uint8_t task);
++uintptr_t ZnpBh_lock(void);
++void ZnpBh_unlock(uintptr_t key);
++uint32_t ZnpBh_now(void);
++void *ZnpBh_allocate(const uint8_t metadata[32], const uint8_t *raw, uint8_t length,
++                     uint32_t timestamp);
++void ZnpBh_deliver(void *event);
++uint8_t ZnpBh_confirm(uint8_t handle, uint8_t status);
++#endif
+diff --git a/source/ti/zstack/backhaul/znp_bh_ti.c b/source/ti/zstack/backhaul/znp_bh_ti.c
+new file mode 100644
+index 0000000..510c929
+--- /dev/null
++++ b/source/ti/zstack/backhaul/znp_bh_ti.c
+@@ -0,0 +1,27 @@
++// SPDX-License-Identifier: MIT
++#ifdef ZNP_BACKHAUL
++#include "znp_bh.h"
++#include "zcomdef.h"
++#include "zmac.h"
++#include "nwk.h"
++#include "zd_app.h"
++#include "nl_mede.h"
++#include <string.h>
++void ZnpBh_network(BhNetwork *n) {
++    n->self = _NIB.nwkDevAddress;
++    n->pan = _NIB.nwkPanId;
++    n->channel = _NIB.nwkLogicalChannel;
++    n->state = devState;
++    memcpy(n->ieee, NLME_GetExtAddr(), 8);
++    memcpy(n->extpan, _NIB.extendedPANID, 8);
++}
++uint8_t ZnpBh_adapterTx(void *request, uint8_t secured, uint8_t *status) {
++    ApiMac_mcpsDataReq_t *p = request;
++    if (p->dstAddr.addrMode != ApiMac_addrType_short)
++        return 0;
++    uint8_t eligible = secured && !p->sec.securityLevel && !p->payloadIELen &&
++                       !p->txOptions.useGreenPower && !p->txOptions.noConfirm;
++    return ZnpBh_tx(p->dstAddr.addr.shortAddr, p->dstPanId, p->msduHandle, eligible, p->msdu.p,
++                    p->msdu.len, status);
++}
++#endif
+diff --git a/source/ti/zstack/backhaul/znp_bootstrap.c b/source/ti/zstack/backhaul/znp_bootstrap.c
+new file mode 100644
+index 0000000..95f40a1
+--- /dev/null
++++ b/source/ti/zstack/backhaul/znp_bootstrap.c
+@@ -0,0 +1,435 @@
++// SPDX-License-Identifier: MIT
++/* Satellite network bootstrap through the MT interface.
++ * The host stages a profile for this radio's factory IEEE address.
++ * The staged profile is replayed before BDB initialization, never over a live network.
++ */
++#ifdef ZNP_BACKHAUL
++#include "znp_bh.h"
++#include "znp_bh_platform.h"
++#ifdef ZNP_BOOTSTRAP_HOST_TEST
++#include "znp_bootstrap_test_platform.h"
++#else
++#include "zcomdef.h"
++#include "osal_nv.h"
++#include "zglobals.h"
++#include "nwk.h"
++#include "nwk_globals.h"
++#include "nl_mede.h"
++#include "assoc_list.h"
++#include "addr_mgr.h"
++#include "aps_mede.h"
++#include "zd_app.h"
++#include "zd_sec_mgr.h"
++#include "bdb.h"
++#include "ssp.h"
++#include "zstackconfig.h"
++#endif
++#include <string.h>
++extern zstack_Config_t *pZStackCfg;
++extern CONST uint8_t gMAX_NWK_SEC_MATERIAL_TABLE_ENTRIES;
++#define BOOT_SIZE 80
++// OSAL legacy IDs become NVOCMP subIDs, which are only ten bits wide.
++// Keep these outside the SDK's ZCD_NV_* allocations (currently through 0x032F).
++#define BOOT_NV 0x03F0
++#define REG_NV 0x03F1
++#if BOOT_NV > 0x03FF || REG_NV > 0x03FF || BOOT_NV == REG_NV
++#error Invalid bootstrap NV allocation
++#endif
++#define BOOT_MAGIC 0x42484332UL
++#define BOOT_STORAGE 11
++#define BOOT_ALREADY_JOINED 12
++#define BOOT_COUNTER 13
++#define BOOT_CAPACITY 14
++#define BOOT_NETWORK 15
++#define BOOT_PROFILE 16
++static uint16_t get16(const uint8_t *p) {
++    return p[0] | (uint16_t)p[1] << 8;
++}
++static uint32_t get32(const uint8_t *p) {
++    return get16(p) | (uint32_t)get16(p + 2) << 16;
++}
++static void put16(uint8_t *p, uint16_t v) {
++    p[0] = v;
++    p[1] = v >> 8;
++}
++static void put32(uint8_t *p, uint32_t v) {
++    put16(p, v);
++    put16(p + 2, v >> 16);
++}
++// Local diagnostic only: operation, item/subID, length and status; never data.
++static uint8_t nvDiagnostic[8];
++static uint8_t storageFailure(uint8_t operation, uint16_t id, uint16_t index, uint16_t len,
++                              uint8_t status) {
++    nvDiagnostic[0] = operation;
++    put16(nvDiagnostic + 1, id);
++    put16(nvDiagnostic + 3, index);
++    put16(nvDiagnostic + 5, len);
++    nvDiagnostic[7] = status;
++    return BOOT_STORAGE;
++}
++static void wipe(void *data, size_t n) {
++    volatile uint8_t *p = data;
++    while (n--)
++        *p++ = 0;
++}
++static uint8_t nonzero(const uint8_t *p, unsigned n) {
++    uint8_t a = 0, b = 0;
++    while (n--) {
++        a |= *p;
++        b |= (uint8_t) ~*p++;
++    }
++    return a && b;
++}
++static uint8_t nvReadEx(uint16_t id, uint16_t index, uint16_t offset, uint16_t len, void *out) {
++    // OSAL's read wrapper maps NOTFOUND and BADLENGTH to SUCCESS. Bootstrap
++    // must distinguish missing/corrupt records, particularly on fresh radios.
++    NVINTF_itemID_t item = {NVINTF_SYSID_ZSTACK, id, index};
++    if (!pZStackCfg || !pZStackCfg->nvFps.readItem)
++        return BOOT_STORAGE;
++    return pZStackCfg->nvFps.readItem(item, offset, len, out) == NVINTF_SUCCESS ? SUCCESS
++                                                                                : BOOT_STORAGE;
++}
++static uint8_t nvRead(uint16_t id, uint16_t offset, uint16_t len, void *out) {
++    return nvReadEx(ZCD_NV_EX_LEGACY, id, offset, len, out);
++}
++static uint8_t nvPut(uint16_t id, uint16_t len, const void *data) {
++    // NVOCMP refuses NULL creation data. OSAL can still return NV_ITEM_UNINIT
++    // on that failure, so always check the resulting item as well as status.
++    uint8_t r = osal_nv_item_init(id, len, (void *)data);
++    if (r != SUCCESS && r != NV_ITEM_UNINIT)
++        return storageFailure(1, 0, id, len, r);
++    if (osal_nv_item_len(id) != len)
++        return storageFailure(2, 0, id, len, r);
++    r = osal_nv_write(id, len, (void *)data);
++    if (r != SUCCESS)
++        return storageFailure(3, 0, id, len, r);
++    uint8_t verify[256];
++    if (len > sizeof(verify))
++        return BOOT_STORAGE;
++    r = nvRead(id, 0, len, verify);
++    uint8_t ok = r == SUCCESS && !memcmp(verify, data, len);
++    wipe(verify, sizeof(verify));
++    return ok ? 0 : storageFailure(4, 0, id, len, r);
++}
++static uint8_t nvPutEx(uint16_t id, uint16_t index, uint16_t len, const void *data) {
++    uint8_t r = osal_nv_item_init_ex(id, index, len, (void *)data);
++    if (r != SUCCESS && r != NV_ITEM_UNINIT)
++        return storageFailure(1, id, index, len, r);
++    if (osal_nv_item_len_ex(id, index) != len)
++        return storageFailure(2, id, index, len, r);
++    r = osal_nv_write_ex(id, index, len, (void *)data);
++    if (r != SUCCESS)
++        return storageFailure(3, id, index, len, r);
++    uint8_t verify[64];
++    if (len > sizeof(verify))
++        return BOOT_STORAGE;
++    r = nvReadEx(id, index, 0, len, verify);
++    uint8_t ok = r == SUCCESS && !memcmp(verify, data, len);
++    wipe(verify, sizeof(verify));
++    return ok ? 0 : storageFailure(4, id, index, len, r);
++}
++typedef struct {
++    uint32_t magic;
++    uint8_t state, profile[BOOT_SIZE];
++} Staged;
++typedef struct {
++    uint32_t magic;
++    uint8_t extpan[8];
++    struct {
++        uint8_t ieee[8];
++        uint16_t address;
++    } peer[BH_PEERS];
++} Registry;
++static uint8_t validProfile(const uint8_t *p) {
++    return p[0] == 1 && p[1] >= 11 && p[1] <= 26 && get16(p + 2) != 0xffff && get16(p + 4) > 0 &&
++           get16(p + 4) < 0xfff8 && nonzero(p + 8, 8) && nonzero(p + 16, 8) &&
++           memcmp(p + 8, p + 16, 8) && nonzero(p + 24, 8) && nonzero(p + 32, 16) &&
++           nonzero(p + 48, 16) && get32(p + 64) < 0xfffff000UL && get32(p + 68) < 0xfffff000UL;
++}
++uint8_t ZnpBh_neighbor(uint16_t addr, const uint8_t ieee[8]) {
++    if (!nonzero(ieee, 8) || !memcmp(ieee, NLME_GetExtAddr(), 8))
++        return BH_ADDRESS;
++    associated_devices_t *p = AssocGetWithShort(addr);
++    associated_devices_t *e = AssocGetWithExt((uint8_t *)ieee);
++    if (p && p != e)
++        return BH_ADDRESS;
++    if (e && e->shortAddr != addr)
++        return BH_ADDRESS;
++    if (!p)
++        p = AssocAddNew(addr, (uint8_t *)ieee, addr == 0 ? PARENT : NEIGHBOR);
++    if (!p)
++        return BH_MEMORY;
++    p->devStatus |= DEV_SEC_AUTH_STATUS;
++    p->linkInfo.txCost = 1;
++    p->linkInfo.rxLqi = 255;
++    p->age = 0;
++    return 0;
++}
++static uint8_t exportProfile(const uint8_t ieee[8], uint8_t *p) {
++    if (devState != DEV_ZB_COORD || _NIB.nwkDevAddress || !_NIB.nwkKeyLoaded || !nonzero(ieee, 8) ||
++        !memcmp(ieee, NLME_GetExtAddr(), 8))
++        return BOOT_NETWORK;
++    Registry reg;
++    memset(&reg, 0, sizeof(reg));
++    uint8_t r = nvRead(REG_NV, 0, sizeof(reg), &reg);
++    if (r != SUCCESS && osal_nv_item_len(REG_NV))
++        return storageFailure(5, 0, REG_NV, sizeof(reg), r);
++    if (r != SUCCESS || reg.magic != BOOT_MAGIC || memcmp(reg.extpan, _NIB.extendedPANID, 8)) {
++        if (r == SUCCESS && reg.magic != BOOT_MAGIC)
++            return storageFailure(6, 0, REG_NV, sizeof(reg), r);
++        memset(&reg, 0, sizeof(reg));
++        reg.magic = BOOT_MAGIC;
++        memcpy(reg.extpan, _NIB.extendedPANID, 8);
++    }
++    unsigned slot = BH_PEERS;
++    for (unsigned i = 0; i < BH_PEERS; i++)
++        if (!memcmp(reg.peer[i].ieee, ieee, 8)) {
++            slot = i;
++            break;
++        }
++    if (slot == BH_PEERS)
++        for (unsigned i = 0; i < BH_PEERS; i++)
++            if (!nonzero(reg.peer[i].ieee, 8)) {
++                slot = i;
++                break;
++            }
++    if (slot == BH_PEERS)
++        return BOOT_CAPACITY;
++    associated_devices_t *device = AssocGetWithExt((uint8_t *)ieee);
++    if (!device) {
++        uint8_t status =
++            nonzero(reg.peer[slot].ieee, 8)
++                ? NLME_DirectJoinRequestWithAddr((uint8_t *)ieee, reg.peer[slot].address, 0x8e)
++                : NLME_DirectJoinRequest((uint8_t *)ieee, 0x8e);
++        if (status != ZSuccess)
++            return BH_MEMORY;
++        device = AssocGetWithExt((uint8_t *)ieee);
++    }
++    if (!device || !device->shortAddr || device->shortAddr >= 0xfff8)
++        return BH_ADDRESS;
++    if (nonzero(reg.peer[slot].ieee, 8) && reg.peer[slot].address != device->shortAddr)
++        return BH_ADDRESS;
++    memcpy(reg.peer[slot].ieee, ieee, 8);
++    reg.peer[slot].address = device->shortAddr;
++    if (nvPut(REG_NV, sizeof(reg), &reg))
++        return BOOT_STORAGE;
++    APSME_TCLinkKeyNVEntry_t entry;
++    uint8_t found;
++    uint16_t index = APSME_SearchTCLinkKeyEntry((uint8_t *)ieee, &found, &entry);
++    if (index >= gZDSECMGR_TC_DEVICE_MAX)
++        return BH_MEMORY;
++    if (!found) {
++        memset(&entry, 0, sizeof(entry));
++        memcpy(entry.extAddr, ieee, 8);
++    }
++    if (device->linkInfo.inFrmCntr >= 0xffffe000UL ||
++        TCLinkKeyRAMEntry[index].rxFrmCntr >= 0xffffe000UL)
++        return BOOT_COUNTER;
++    entry.keyAttributes = ZG_VERIFIED_KEY;
++    entry.keyType = ZG_UNIQUE_LINK_KEY;
++    entry.txFrmCntr = TCLinkKeyRAMEntry[index].txFrmCntr;
++    entry.rxFrmCntr = TCLinkKeyRAMEntry[index].rxFrmCntr;
++    if (nvPutEx(ZCD_NV_EX_TCLK_TABLE, index, sizeof(entry), &entry))
++        return BOOT_STORAGE;
++    TCLinkKeyRAMEntry[index].entryUsed = TRUE;
++    nwkActiveKeyItems key;
++    memset(&key, 0, sizeof(key));
++    SSP_ReadNwkActiveKey(&key);
++    if (!nonzero(key.active.key, 16)) {
++        wipe(&key, sizeof(key));
++        return BOOT_NETWORK;
++    }
++    memset(p, 0, BOOT_SIZE);
++    p[0] = 1;
++    p[1] = _NIB.nwkLogicalChannel;
++    put16(p + 2, _NIB.nwkPanId);
++    put16(p + 4, device->shortAddr);
++    p[6] = _NIB.nwkUpdateId;
++    p[7] = key.active.keySeqNum;
++    memcpy(p + 8, NLME_GetExtAddr(), 8);
++    memcpy(p + 16, ieee, 8);
++    memcpy(p + 24, _NIB.extendedPANID, 8);
++    memcpy(p + 32, key.active.key, 16);
++    ZDSecMgrGenerateKeyFromSeed((uint8_t *)ieee, entry.SeedShift, p + 48);
++    put32(p + 64, device->linkInfo.inFrmCntr + 4096);
++    put32(p + 68, entry.rxFrmCntr + 4096);
++    put32(p + 72, key.frameCounter);
++    put32(p + 76, entry.txFrmCntr);
++    wipe(&key, sizeof(key));
++    device->devStatus |= DEV_SEC_AUTH_STATUS;
++    device->linkInfo.txCost = 1;
++    device->linkInfo.rxLqi = 255;
++    NLME_UpdateNV(NWK_NV_NIB_ENABLE | NWK_NV_DEVICELIST_ENABLE | NWK_NV_ADDRMGR_ENABLE);
++    return 0;
++}
++static uint8_t stageProfile(const uint8_t *p) {
++    if (!validProfile(p) || memcmp(p + 16, NLME_GetExtAddr(), 8))
++        return BOOT_PROFILE;
++    if (ZnpBh_bound())
++        return BH_BUSY;
++    nwkIB_t nib;
++    uint8_t on = 0;
++    nvRead(ZCD_NV_BDBNODEISONANETWORK, 0, 1, &on);
++    if (devState == DEV_ROUTER || devState == DEV_ZB_COORD || on)
++        return BOOT_ALREADY_JOINED;
++    if (nvRead(ZCD_NV_NIB, 0, sizeof(nib), &nib) == SUCCESS && nib.nwkPanId != 0xffff &&
++        nib.nwkDevAddress < 0xfff8)
++        return BOOT_ALREADY_JOINED;
++    Staged staged;
++    memset(&staged, 0, sizeof(staged));
++    staged.magic = BOOT_MAGIC;
++    staged.state = 1;
++    memcpy(staged.profile, p, BOOT_SIZE);
++    uint8_t r = 0;
++    uint8_t router = ZG_DEVICETYPE_ROUTER, zero = 0;
++    uint32_t channel = 1UL << p[1];
++    if (!r)
++        r = nvPut(ZCD_NV_LOGICAL_TYPE, 1, &router);
++    if (!r)
++        r = nvPut(ZCD_NV_CONCENTRATOR_ENABLE, 1, &zero);
++    if (!r)
++        r = nvPut(ZCD_NV_CHANLIST, 4, &channel);
++    if (!r)
++        r = nvPut(BOOT_NV, sizeof(staged), &staged);
++    wipe(&staged, sizeof(staged));
++    return r;
++}
++uint8_t ZnpBh_provision(uint8_t cmd, uint8_t len, const uint8_t *in, uint8_t *out) {
++    out[0] = BH_LENGTH;
++    if ((cmd == 0xc8 && len == 8) || (cmd == 0xc9 && len == BOOT_SIZE))
++        memset(nvDiagnostic, 0, sizeof(nvDiagnostic));
++    if (cmd == 0xcb && !len) {
++        out[0] = 0;
++        memcpy(out + 1, nvDiagnostic, sizeof(nvDiagnostic));
++        return 9;
++    }
++    if (cmd == 0xc8 && len == 8) {
++        out[0] = exportProfile(in, out + 1);
++        return out[0] ? 1 : BOOT_SIZE + 1;
++    }
++    if (cmd == 0xc9 && len == BOOT_SIZE)
++        out[0] = stageProfile(in);
++    if (cmd == 0xca && !len) {
++        Staged staged;
++        memset(&staged, 0, sizeof(staged));
++        out[0] = 0;
++        out[1] =
++            nvRead(BOOT_NV, 0, sizeof(staged), &staged) == SUCCESS && staged.magic == BOOT_MAGIC
++                ? staged.state
++                : 0;
++        wipe(&staged, sizeof(staged));
++        return 2;
++    }
++    return 1;
++}
++uint8_t ZnpBh_restoreBootstrap(void) {
++    Staged staged;
++    memset(&staged, 0, sizeof(staged));
++    if (nvRead(BOOT_NV, 0, sizeof(staged), &staged) != SUCCESS || staged.magic != BOOT_MAGIC ||
++        staged.state != 1) {
++        wipe(&staged, sizeof(staged));
++        return 0;
++    }
++    uint8_t *p = staged.profile, r = BOOT_PROFILE;
++    nwkIB_t nib = _NIB;
++    nwkActiveKeyItems key;
++    nwkSecMaterialDesc_t material;
++    APSME_TCLinkKeyNVEntry_t tc;
++    memset(&key, 0, sizeof(key));
++    memset(&material, 0, sizeof(material));
++    memset(&tc, 0, sizeof(tc));
++    do {
++        if (!validProfile(p) || memcmp(p + 16, NLME_GetExtAddr(), 8) ||
++            zgDeviceLogicalType != ZG_DEVICETYPE_ROUTER)
++            break;
++        r = BOOT_STORAGE;
++        nib.nwkDevAddress = get16(p + 4);
++        nib.nwkPanId = get16(p + 2);
++        nib.nwkLogicalChannel = p[1];
++        nib.channelList = 1UL << p[1];
++        nib.nwkCoordAddress = 0;
++        memcpy(nib.nwkCoordExtAddress, p + 8, 8);
++        memcpy(nib.extendedPANID, p + 24, 8);
++        nib.nwkState = NWK_ROUTER;
++        nib.CapabilityFlags = 0x8e;
++        nib.nodeDepth = 1;
++        nib.nwkKeyLoaded = TRUE;
++        nib.nwkIsConcentrator = FALSE;
++        nib.nwkManagerAddr = 0;
++        nib.nwkUpdateId = p[6];
++        nib.beaconOrder = nib.superFrameOrder = 15;
++        // Retain this device's previous frame-counter floor; never copy Master's TX counter as
++        // ours.
++        uint32_t floor = get32(p + 64);
++        for (unsigned i = 0; i < gMAX_NWK_SEC_MATERIAL_TABLE_ENTRIES; i++) {
++            if (nvReadEx(ZCD_NV_EX_NWK_SEC_MATERIAL_TABLE, i, 0, sizeof(material), &material) ==
++                    SUCCESS &&
++                material.FrameCounter > floor)
++                floor = material.FrameCounter;
++        }
++        if (floor >= 0xffffe000UL) {
++            r = BOOT_COUNTER;
++            break;
++        }
++        key.active.keySeqNum = p[7];
++        memcpy(key.active.key, p + 32, 16);
++        key.frameCounter = floor;
++        material.FrameCounter = floor;
++        memcpy(material.extendedPanID, p + 24, 8);
++        tc.txFrmCntr = get32(p + 68);
++        tc.rxFrmCntr = get32(p + 76);
++        memcpy(tc.extAddr, p + 8, 8);
++        tc.keyAttributes = ZG_VERIFIED_KEY;
++        tc.keyType = ZG_UNIQUE_LINK_KEY;
++        uint8_t found;
++        APSME_TCLinkKeyNVEntry_t old;
++        uint16_t index = APSME_SearchTCLinkKeyEntry(p + 8, &found, &old);
++        if (index >= gZDSECMGR_TC_DEVICE_MAX)
++            break;
++        if (found) {
++            if (old.txFrmCntr > tc.txFrmCntr)
++                tc.txFrmCntr = old.txFrmCntr;
++            if (old.rxFrmCntr > tc.rxFrmCntr)
++                tc.rxFrmCntr = old.rxFrmCntr;
++        }
++        if (nvPut(ZCD_NV_NWKKEY, sizeof(key), &key) ||
++            nvPut(ZCD_NV_NWK_ACTIVE_KEY_INFO, sizeof(key.active), &key.active) ||
++            nvPut(ZCD_NV_TCLK_JOIN_DEV, 16, p + 48) ||
++            nvPutEx(ZCD_NV_EX_TCLK_TABLE, index, sizeof(tc), &tc) ||
++            nvPutEx(ZCD_NV_EX_NWK_SEC_MATERIAL_TABLE, 0, sizeof(material), &material) ||
++            nvPut(ZCD_NV_TRUSTCENTER_ADDR, 8, p + 8) || nvPut(ZCD_NV_EXTENDED_PAN_ID, 8, p + 24) ||
++            nvPut(ZCD_NV_APS_USE_EXT_PANID, 8, p + 24))
++            break;
++        _NIB = nib;
++        if (ZnpBh_neighbor(0, p + 8))
++            break;
++        associated_devices_t *parent = AssocGetWithShort(0);
++        parent->linkInfo.inKeySeqNum = p[7];
++        parent->linkInfo.inFrmCntr = get32(p + 72);
++        NLME_UpdateNV(NWK_NV_DEVICELIST_ENABLE | NWK_NV_ADDRMGR_ENABLE);
++        if (nvPut(ZCD_NV_NIB, sizeof(nib), &nib))
++            break;
++        uint8_t options = zgReadStartupOptions() &
++                          ~(ZCD_STARTOPT_DEFAULT_CONFIG_STATE | ZCD_STARTOPT_DEFAULT_NETWORK_STATE |
++                            ZCD_STARTOPT_CLEAR_NWK_FRAME_COUNTER);
++        uint8_t on = TRUE;
++        if (nvPut(ZCD_NV_STARTUP_OPTION, 1, &options) || nvPut(ZCD_NV_BDBNODEISONANETWORK, 1, &on))
++            break;
++        // This is the commit point. Until it succeeds BDB must not start transmitting.
++        staged.state = 2;
++        wipe(staged.profile + 32, 32);
++        if (nvPut(BOOT_NV, sizeof(staged), &staged))
++            break;
++        memcpy(AIB_apsTrustCenterAddress, p + 8, 8);
++        memcpy(ZDO_UseExtendedPANID, p + 24, 8);
++        TCLinkKeyRAMEntry[index].entryUsed = TRUE;
++        TCLinkKeyRAMEntry[index].txFrmCntr = tc.txFrmCntr;
++        TCLinkKeyRAMEntry[index].rxFrmCntr = tc.rxFrmCntr;
++        r = 0;
++    } while (0);
++    wipe(&staged, sizeof(staged));
++    wipe(&key, sizeof(key));
++    wipe(&tc, sizeof(tc));
++    return r;
++}
++#endif
+diff --git a/source/ti/zstack/mt/mt_sys.c b/source/ti/zstack/mt/mt_sys.c
+index ef45121..c178138 100644
+--- a/source/ti/zstack/mt/mt_sys.c
++++ b/source/ti/zstack/mt/mt_sys.c
+@@ -66,6 +66,10 @@
+ /******************************************************************************
+  * INCLUDES
+  *****************************************************************************/
++#ifdef ZNP_BACKHAUL
++#include <ti/zstack/backhaul/znp_bh.h>
++#include <ti/zstack/backhaul/znp_bh_platform.h>
++#endif
+ #include "zcomdef.h"
+ #include "rom_jt_154.h"
+ #include "mt.h"
+@@ -249,6 +253,29 @@ uint8_t MT_SysCommandProcessing(uint8_t *pBuf)
+ 
+   switch (pBuf[MT_RPC_POS_CMD1])
+   {
++#ifdef ZNP_BACKHAUL
++    case 0xC0: case 0xC1: case 0xC2: case 0xC3:
++    case 0xC4: case 0xC5: case 0xC6: case 0xC7:
++    {
++      uint8_t response[160];
++      uint8_t cmd = pBuf[MT_RPC_POS_CMD1];
++      uint8_t length = ZnpBh_command(cmd, pBuf[MT_RPC_POS_LEN],
++                                    pBuf + MT_RPC_FRAME_HDR_SZ, response);
++      MT_BuildAndSendZToolResponse(MT_SRSP_SYS, cmd, length, response);
++      break;
++    }
++    case 0xC8: case 0xC9: case 0xCA: case 0xCB:
++    {
++      uint8_t response[81];
++      uint8_t cmd = pBuf[MT_RPC_POS_CMD1];
++      uint8_t length = ZnpBh_provision(cmd, pBuf[MT_RPC_POS_LEN],
++                                      pBuf + MT_RPC_FRAME_HDR_SZ, response);
++      MT_BuildAndSendZToolResponse(MT_SRSP_SYS, cmd, length, response);
++      volatile uint8_t *wipe = response;
++      for (unsigned i = 0; i < sizeof(response); i++) wipe[i] = 0;
++      break;
++    }
++#endif
+     case MT_SYS_RESET_REQ:
+       MT_SysReset(pBuf);
+       break;
+diff --git a/source/ti/zstack/mt/mt_task.c b/source/ti/zstack/mt/mt_task.c
+index 92056bb..57e9d69 100644
+--- a/source/ti/zstack/mt/mt_task.c
++++ b/source/ti/zstack/mt/mt_task.c
+@@ -66,6 +66,10 @@
+ /***************************************************************************************************
+  * INCLUDES
+  ***************************************************************************************************/
++#ifdef ZNP_BACKHAUL
++#include <ti/zstack/backhaul/znp_bh.h>
++#include <ti/zstack/backhaul/znp_bh_platform.h>
++#endif
+ #include "zcomdef.h"
+ #include "mt_task.h"
+ #include "mt.h"
+@@ -112,6 +116,9 @@ uint8_t MT_TaskID;
+ void MT_TaskInit(uint8_t task_id)
+ {
+   MT_TaskID = task_id;
++#ifdef ZNP_BACKHAUL
++  ZnpBh_init(task_id);
++#endif
+ 
+   /* Initialize the Serial port */
+ #if !defined(NPI)
+@@ -137,6 +144,13 @@ uint32_t MT_ProcessEvent(uint8_t task_id, uint32_t events)
+ {
+   mtOSALSerialData_t *pMsg;
+ 
++#ifdef ZNP_BACKHAUL
++  if (events & ZNP_BH_EVENT)
++  {
++    ZnpBh_tick();
++    return events ^ ZNP_BH_EVENT;
++  }
++#endif
+   if ( events & SYS_EVENT_MSG )
+   {
+     while ((pMsg = (mtOSALSerialData_t *) OsalPort_msgReceive(MT_TaskID)) != NULL)
+diff --git a/source/ti/zstack/stack/bdb/bdb.c b/source/ti/zstack/stack/bdb/bdb.c
+index dbaa595..7e733e4 100644
+--- a/source/ti/zstack/stack/bdb/bdb.c
++++ b/source/ti/zstack/stack/bdb/bdb.c
+@@ -67,6 +67,10 @@
+  * INCLUDES
+  */
+ 
++#ifdef ZNP_BACKHAUL
++#include <ti/zstack/backhaul/znp_bh.h>
++#include <ti/zstack/backhaul/znp_bh_platform.h>
++#endif
+ #include "ti_zstack_config.h"
+ #include "bdb.h"
+ #include "zd_app.h"
+@@ -917,6 +921,10 @@ void bdb_setJoinUsesInstallCodeKey(bool set)
+  */
+ void bdb_StartCommissioning(uint8_t mode)
+ {
++#ifdef ZNP_BACKHAUL
++  /* An incomplete bootstrap must not start transmitting. */
++  if (ZnpBh_restoreBootstrap()) return;
++#endif
+   //Application cannot request to set the device in initialization mode or parent lost
+   mode &= ~(BDB_COMMISSIONING_MODE_INITIALIZATION | BDB_COMMISSIONING_MODE_PARENT_LOST);
+ 
+diff --git a/source/ti/zstack/zmac/f8w/zmac.c b/source/ti/zstack/zmac/f8w/zmac.c
+index b443f02..503f176 100644
+--- a/source/ti/zstack/zmac/f8w/zmac.c
++++ b/source/ti/zstack/zmac/f8w/zmac.c
+@@ -75,6 +75,10 @@
+  ********************************************************************************************************/
+ 
+ 
++#ifdef ZNP_BACKHAUL
++#include <ti/zstack/backhaul/znp_bh.h>
++#include <ti/zstack/backhaul/znp_bh_platform.h>
++#endif
+ #include "rom_jt_154.h"
+ #include "zmac.h"
+ #include "mac_main.h"
+@@ -1179,7 +1183,12 @@ uint8_t ZMacDataReqSec( ZMacDataReq_t *pData, applySecCB_t secCB )
+   }
+ 
+   /* Call Mac Data Request */
+-  stat = MAP_MAC_McpsDataReq( &dataReq );
++#ifdef ZNP_BACKHAUL
++  if (!ZnpBh_adapterTx(&dataReq, secCB != NULL, &stat))
++#endif
++  {
++    stat = MAP_MAC_McpsDataReq( &dataReq );
++  }
+ 
+   if (dataReq.msdu.p)
+   {
+diff --git a/source/ti/zstack/zmac/f8w/zmac_cb.c b/source/ti/zstack/zmac/f8w/zmac_cb.c
+index a799ffb..7bb815c 100644
+--- a/source/ti/zstack/zmac/f8w/zmac_cb.c
++++ b/source/ti/zstack/zmac/f8w/zmac_cb.c
+@@ -74,6 +74,10 @@
+  *                                               INCLUDES
+  ********************************************************************************************************/
+ 
++#ifdef ZNP_BACKHAUL
++#include <ti/zstack/backhaul/znp_bh.h>
++#include <ti/zstack/backhaul/znp_bh_platform.h>
++#endif
+ #include "zcomdef.h"
+ #include "rom_jt_154.h"
+ #include "zmac.h"
+@@ -360,7 +364,13 @@ void MAC_CbackEvent(macCbackEvent_t *pData)
+                && (pData->dataInd.msdu.p[6] > 1) )
+         {
+           // Send the messsage to a special broadcast queue
++#ifdef ZNP_BACKHAUL
++          uint8_t bhStatus = nwk_broadcastSend((uint8_t *)msgPtr);
++          ZnpBh_queue(msgPtr, bhStatus);
++          if (bhStatus != SUCCESS)
++#else
+           if ( nwk_broadcastSend( (uint8_t *)msgPtr ) != SUCCESS )
++#endif
+           {
+             // Drop the message, too many broadcast messages to process
+             MAP_mac_msg_deallocate( (uint8_t **)&pData );
+@@ -389,7 +399,12 @@ void MAC_CbackEvent(macCbackEvent_t *pData)
+     }
+     else
+     {
++#ifdef ZNP_BACKHAUL
++      uint8_t bhStatus = OsalPort_msgSend(NWK_TaskID, (uint8_t *)msgPtr);
++      ZnpBh_queue(msgPtr, bhStatus);
++#else
+       OsalPort_msgSend( NWK_TaskID, (uint8_t *)msgPtr );
++#endif
+     }
+   }
+ 

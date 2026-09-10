@@ -1,0 +1,2 @@
+# Unified-diff context lines can contain a leading space before SDK tabs.
+firmware.patch whitespace=-blank-at-eol,-space-before-tab
